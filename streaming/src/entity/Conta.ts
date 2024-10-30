@@ -3,17 +3,15 @@ import { Perfis } from "./Perfis";
 
 @Entity()
 export class Conta {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    email: string;
+  @Column()
+  email: string;
 
-    @Column()
-    senha: string;
+  @Column()
+  senha: string;
 
-    @ManyToOne(() => Perfis, (perfil) => perfil.contas)
-    perfil: Perfis;
+  @ManyToOne(() => Perfis, (perfil) => perfil.contas)
+  perfil: Perfis;
 }
-
-
