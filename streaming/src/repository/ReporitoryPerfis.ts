@@ -67,7 +67,7 @@ export class PerfilRepositorio implements IPerfilRepository {
         }
     }
 
-    async listarFilmesPorPerfil(id: number): Promise<Filme[]> {
+    async listarFilmes(id: number): Promise<Filme[]> {
         const perfil = await this.repositorio.findOne({
             where: { id: id },
             relations: ["filmes"],

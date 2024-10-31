@@ -1,5 +1,6 @@
 import { Filme } from '../entity/Filme';
 import { FilmeRepositorio } from '../repository/RepositoryFilme';
+import { Perfil } from '../entity/Perfis';
 
 export class FilmeService {
     private filmeRepositorio: FilmeRepositorio;
@@ -27,5 +28,13 @@ export class FilmeService {
         }
         await this.filmeRepositorio.remover(filme);
         return true;
+    }
+
+    async listarPerfisPorFilme(id: number): Promise<Perfil[]> {
+        try {
+            return await this.filmeRepositorio.listarPerfis(id);
+        } catch (error) {
+            throw new Error(`Erro ao listar perfis do filme com ID ${id}: ${error.message}`);
+        }
     }
 }
