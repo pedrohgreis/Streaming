@@ -1,5 +1,5 @@
 import { Filme } from "../entity/Filme";
-import { AppDataSource } from "../data-source";
+import { banco } from "../data-source";
 import { Repository } from "typeorm";
 
 interface IFilmeRepository {
@@ -15,7 +15,7 @@ export class FilmeRepositorio implements IFilmeRepository {
     private repositorio: Repository<Filme>;
 
     constructor() {
-        this.repositorio = AppDataSource.getRepository(Filme);
+        this.repositorio = banco.getRepository(Filme);
     }
 
     async create(f: Filme): Promise<Filme> {

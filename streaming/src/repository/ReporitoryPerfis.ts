@@ -1,5 +1,5 @@
 import { Perfil } from "../entity/Perfis";
-import { AppDataSource } from "../data-source";
+import { banco } from "../data-source";
 import { Repository } from "typeorm";
 
 interface IPerfilRepository {
@@ -15,7 +15,7 @@ export class PerfilRepositorio implements IPerfilRepository {
     private repositorio: Repository<Perfil>;
 
     constructor() {
-        this.repositorio = AppDataSource.getRepository(Perfil);
+        this.repositorio = banco.getRepository(Perfil);
     }
 
     async create(f: Perfil): Promise<Perfil> {

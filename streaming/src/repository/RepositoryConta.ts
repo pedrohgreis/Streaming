@@ -1,5 +1,5 @@
 import { Conta } from "../entity/Conta";
-import { AppDataSource } from "../data-source";
+import { banco } from "../data-source";
 import { Repository } from "typeorm";
 
 interface IContaRepository {
@@ -15,7 +15,7 @@ export class ContaRepository implements IContaRepository {
     private repositorio: Repository<Conta>;
 
     constructor() {
-        this.repositorio = AppDataSource.getRepository(Conta);
+        this.repositorio = banco.getRepository(Conta);
     }
 
     async criar(conta: Conta): Promise<Conta> {
