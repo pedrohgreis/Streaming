@@ -19,7 +19,7 @@ export class Filme {
     diretor: string;
 
     @ManyToMany(() => Perfil, (perfil) => perfil.filmes)
-    @JoinTable({
+    @JoinTable({ //verificar a necessidade/veracidade do joinTable
         name: "filme_perfil", // Nome da tabela de junção
         joinColumn: {
             name: "filme_id",

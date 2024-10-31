@@ -14,7 +14,7 @@ export class Perfil {
     idade: number;
 
     @OneToMany(() => Conta, (conta) => conta.perfil)
-    contas: Conta[];
+    contas: Conta[]; //ajusta pois ele ta fazendo um perfil relacionaar com varias contas, deve ser o contrario
 
     @ManyToMany(() => Filme, (filme) => filme.perfis)
     filmes: Filme[];

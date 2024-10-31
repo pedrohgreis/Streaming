@@ -7,6 +7,7 @@ import { FilmeService } from "./src/service/FilmesService";
 import { PerfilService } from "./src/service/PerfisService";
 import { ContaService } from "./src/service/ContaService";
 
+//fazer as instancias chamarem funções de criação
 banco.initialize()
     .then(async () => {
         const filmeService = new FilmeService();

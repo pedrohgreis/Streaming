@@ -10,6 +10,7 @@ interface IContaRepository {
     remover(conta: Conta): Promise<Conta>;
     atualizar(id: number, dados: Partial<Conta>): Promise<void>;
 }
+//verifica necessidade do try-catch
 
 export class ContaRepository implements IContaRepository {
     private repositorio: Repository<Conta>;
