@@ -13,37 +13,66 @@ banco.initialize()
         const perfilService = new PerfilService();
         const contaService = new ContaService();
 
-        // 1. Criar instâncias das entidades
+        // 1. Criar e salvar o perfil primeiro
+        const perfil1 = new Perfil();
+        perfil1.nome = "Aventureiro";
+        perfil1.idade = 30;
+        perfil1.filmes = []; // Inicializar array vazio
+        const perfilSalvo = await perfilService.criar(perfil1);
+
+        // 2. Criar e salvar o filme
         const filme1 = new Filme();
         filme1.nome = "Aventura na Selva";
         filme1.duracao = 150;
         filme1.idadeRecomendacao = 10;
         filme1.diretor = "Steven Spielberg";
+        filme1.perfis = [perfilSalvo]; // Associar com o perfil salvo
+        const filmeSalvo = await filmeService.criar(filme1);
 
-        const perfil1 = new Perfil();
-        perfil1.nome = "Aventureiro";
-        perfil1.idade = 30;
+        // 3. Atualizar o perfil com o filme
+        try {
+            const perfilAtualizado = await perfilService.atualizar(perfilSalvo.id, {
+                filmes: [filmeSalvo]
+            });
+            console.log("Perfil atualizado com sucesso");
+        } catch (error) {
+            console.error("Erro ao atualizar perfil:", error);
+        }
 
+        // 4. Criar e salvar a conta associada ao perfil
         const conta1 = new Conta();
         conta1.email = "aventureiro@email.com";
         conta1.senha = "senhaforte";
-        conta1.perfil = perfil1;
-
-        perfil1.filmes = [filme1];
-
-        // 2. Salvar as entidades usando os serviços
-        await filmeService.criar(filme1);
-        await perfilService.criar(perfil1);
+        conta1.perfil = perfilSalvo;
         await contaService.criar(conta1);
 
-        // 3. Consultar os dados usando os serviços
-        const filmes = await filmeService.listar();
-        const perfis = await perfilService.listar();
-        const contas = await contaService.listar();
+        // 5. Consultas com relações
+        const filmesComPerfis = await filmeService.listarPerfisPorFilme(filmeSalvo.id);
+        const perfilComFilmes = await perfilService.listarFilmesPorPerfil(perfilSalvo.id);
 
-        // 4. Exibir os dados no console
-        console.log("Filmes:", filmes);
-        console.log("Perfis:", perfis);
-        console.log("Contas:", contas);
+        console.log("Filmes do perfil:");
+        perfilComFilmes.forEach(filme => {
+            console.log({
+                id: filme.id,
+                nome: filme.nome,
+                diretor: filme.diretor,
+                perfis: filme.perfis?.map(p => ({
+                    id: p.id,
+                    nome: p.nome
+                }))
+            });
+        });
+
+        console.log("\nPerfis do filme:");
+        filmesComPerfis.forEach(perfil => {
+            console.log({
+                id: perfil.id,
+                nome: perfil.nome,
+                filmes: perfil.filmes?.map(f => ({
+                    id: f.id,
+                    nome: f.nome
+                }))
+            });
+        });
     })
     .catch((error) => console.log(error));

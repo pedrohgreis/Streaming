@@ -29,7 +29,9 @@ export class FilmeRepositorio implements IFilmeRepository {
 
     async listar(): Promise<Filme[]> {
         try {
-            return await this.repositorio.find();
+            return await this.repositorio.find({
+                relations: ["perfis"]
+            });
         } catch (error) {
             throw new Error("Erro ao listar filmes.");
         }
@@ -37,7 +39,10 @@ export class FilmeRepositorio implements IFilmeRepository {
 
     async obter(id: number): Promise<Filme | null> {
         try {
-            return await this.repositorio.findOneBy({ id: id });
+            return await this.repositorio.findOne({
+                where: { id },
+                relations: ["perfis"]
+            });
         } catch (error) {
             throw new Error("Erro ao obter filme.");
         }
@@ -70,7 +75,11 @@ export class FilmeRepositorio implements IFilmeRepository {
     async listarPerfis(id: number): Promise<Perfil[]> {
         const filme = await this.repositorio.findOne({
             where: { id: id },
-            relations: ["perfis"],
+            relations: {
+                perfis: {
+                    filmes: true
+                }
+            }
         });
 
         if (filme) {

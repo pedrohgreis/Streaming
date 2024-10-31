@@ -29,7 +29,9 @@ export class PerfilRepositorio implements IPerfilRepository {
 
     async listar(): Promise<Perfil[]> {
         try {
-            return await this.repositorio.find();
+            return await this.repositorio.find({
+                relations: ["filmes", "contas"]
+            });
         } catch (error) {
             throw new Error("Erro ao listar perfis.");
         }
@@ -37,7 +39,10 @@ export class PerfilRepositorio implements IPerfilRepository {
 
     async obter(id: number): Promise<Perfil | null> {
         try {
-            return await this.repositorio.findOneBy({ id: id });
+            return await this.repositorio.findOne({
+                where: { id },
+                relations: ["filmes", "contas"]
+            });
         } catch (error) {
             throw new Error("Erro ao obter perfil.");
         }
@@ -61,8 +66,26 @@ export class PerfilRepositorio implements IPerfilRepository {
 
     async atualizar(id: number, dados: Partial<Perfil>): Promise<void> {
         try {
-            await this.repositorio.update(id, dados);
+            // Primeiro, buscar o perfil existente com suas relações
+            const perfilExistente = await this.repositorio.findOne({
+                where: { id },
+                relations: ["filmes"]
+            });
+
+            if (!perfilExistente) {
+                throw new Error("Perfil não encontrado");
+            }
+
+            // Se houver filmes nos dados, atualizar a relação
+            if (dados.filmes) {
+                perfilExistente.filmes = dados.filmes;
+                await this.repositorio.save(perfilExistente);
+            } else {
+                // Se não houver filmes, atualizar apenas os outros dados
+                await this.repositorio.update(id, dados);
+            }
         } catch (error) {
+            console.error("Erro detalhado:", error);
             throw new Error("Erro ao atualizar perfil.");
         }
     }
@@ -70,7 +93,11 @@ export class PerfilRepositorio implements IPerfilRepository {
     async listarFilmes(id: number): Promise<Filme[]> {
         const perfil = await this.repositorio.findOne({
             where: { id: id },
-            relations: ["filmes"],
+            relations: {
+                filmes: {
+                    perfis: true
+                }
+            }
         });
 
         if (perfil) {
