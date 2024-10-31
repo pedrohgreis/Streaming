@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from "typeorm";
-import { Perfis } from "./Perfis";
+import { Perfil } from "./Perfis";
 
 @Entity()
 export class Filme {
@@ -18,6 +18,14 @@ export class Filme {
     @Column()
     diretor: string;
 
-    @ManyToMany(() => Perfis, (perfil) => perfil.filmes)
-    perfis: Perfis[];
+    @ManyToMany(() => Perfil, (perfil) => perfil.filmes)
+    perfis: Perfil[];
+
+    constructor(nome?: string, duracao?: number, idadeRecomendacao?: number, diretor?: string, perfis?: Perfil[]) {
+        this.nome = nome;
+        this.duracao = duracao;
+        this.idadeRecomendacao = idadeRecomendacao;
+        this.diretor = diretor;
+        this.perfis = perfis;
+    }
 }

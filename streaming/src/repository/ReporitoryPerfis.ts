@@ -1,36 +1,68 @@
-import { Perfis } from "../entity/Perfis";
+import { Perfil } from "../entity/Perfis";
 import { AppDataSource } from "../data-source";
 import { Repository } from "typeorm";
 
-export class PerfisRepositorio{
-    private repositorio: Repository<Perfis>
-
-    constructor(){
-        this.repositorio = AppDataSource.getRepository(Perfis)
-    }
-
-    async create(f:Perfis): Promise<Perfis>{
-        return await this.repositorio.save(f);
-    }
-
-    async listar(): Promise<Perfis[]>{
-        return await this.repositorio.find();
-    }
-
-    async obter(id:number): Promise<Perfis>{
-        return await this.repositorio.findOneBy({id:id});
-    }
-
-    async pesquisar(filtro: Partial<Perfis>):Promise<Perfis | null>{
-        return await this.repositorio.findOne({where:filtro})
-    }
-
-    async remover(perfil: Perfis): Promise<Perfis>{
-        return await this.repositorio.remove(perfil);
-    }
-
-    async atualizar(id:number, dados:Partial <Perfis>): Promise <void>{
-        await this.repositorio.update(id,dados);
-    }
+interface IPerfilRepository {
+    create(f: Perfil): Promise<Perfil>;
+    listar(): Promise<Perfil[]>;
+    obter(id: number): Promise<Perfil | null>;
+    pesquisar(filtro: Partial<Perfil>): Promise<Perfil | null>;
+    remover(perfil: Perfil): Promise<Perfil>;
+    atualizar(id: number, dados: Partial<Perfil>): Promise<void>;
 }
 
+export class PerfilRepositorio implements IPerfilRepository {
+    private repositorio: Repository<Perfil>;
+
+    constructor() {
+        this.repositorio = AppDataSource.getRepository(Perfil);
+    }
+
+    async create(f: Perfil): Promise<Perfil> {
+        try {
+            return await this.repositorio.save(f);
+        } catch (error) {
+            throw new Error("Erro ao criar perfil.");
+        }
+    }
+
+    async listar(): Promise<Perfil[]> {
+        try {
+            return await this.repositorio.find();
+        } catch (error) {
+            throw new Error("Erro ao listar perfis.");
+        }
+    }
+
+    async obter(id: number): Promise<Perfil | null> {
+        try {
+            return await this.repositorio.findOneBy({ id: id });
+        } catch (error) {
+            throw new Error("Erro ao obter perfil.");
+        }
+    }
+
+    async pesquisar(filtro: Partial<Perfil>): Promise<Perfil | null> {
+        try {
+            return await this.repositorio.findOne({ where: filtro });
+        } catch (error) {
+            throw new Error("Erro ao pesquisar perfil.");
+        }
+    }
+
+    async remover(perfil: Perfil): Promise<Perfil> {
+        try {
+            return await this.repositorio.remove(perfil);
+        } catch (error) {
+            throw new Error("Erro ao remover perfil.");
+        }
+    }
+
+    async atualizar(id: number, dados: Partial<Perfil>): Promise<void> {
+        try {
+            await this.repositorio.update(id, dados);
+        } catch (error) {
+            throw new Error("Erro ao atualizar perfil.");
+        }
+    }
+}

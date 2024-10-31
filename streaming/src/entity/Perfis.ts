@@ -3,7 +3,7 @@ import { Conta } from "./Conta";
 import { Filme } from "./Filme";
 
 @Entity()
-export class Perfis {
+export class Perfil {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -18,4 +18,11 @@ export class Perfis {
 
     @ManyToMany(() => Filme, (filme) => filme.perfis)
     filmes: Filme[];
+
+    constructor(nome?: string, idade?: number, contas?: Conta[], filmes?: Filme[]) {
+        this.nome = nome;
+        this.idade = idade;
+        this.contas = contas;
+        this.filmes = filmes;
+    }
 }

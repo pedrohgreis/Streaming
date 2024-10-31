@@ -1,30 +1,31 @@
-import { Perfis } from "../entity/Perfis";
-import { PerfisRepositorio } from "../repository/ReporitoryPerfis";
+import { Perfil } from '../entity/Perfis';
+import { PerfilRepositorio } from '../repository/ReporitoryPerfis';
 
-export class PerfilService{
-    private perfilRepository: PerfisRepositorio
+export class PerfilService {
+    private perfilRepositorio: PerfilRepositorio;
 
-    constructor(){
-        this.perfilRepository = new PerfisRepositorio()
+    constructor() {
+        this.perfilRepositorio = new PerfilRepositorio();
     }
 
-    async criar(p:Perfis): Promise<Perfis>{
-        return await this.perfilRepository.create(p);
+    async criar(perfil: Perfil): Promise<Perfil> {
+        return await this.perfilRepositorio.create(perfil);
     }
 
-    async listar():Promise<Perfis[]>{
-        return await this.perfilRepository.listar()
+    async listar(): Promise<Perfil[]> {
+        return await this.perfilRepositorio.listar();
     }
 
-    async atualizar(id:number, perfis:Perfis): Promise<void>{
-        return await this.atualizar(id,perfis);
+    async atualizar(id: number, perfil: Partial<Perfil>): Promise<void> {
+        await this.perfilRepositorio.atualizar(id, perfil);
     }
 
-    async remover(id:number): Promise <boolean>{
-        const perfil = await this.perfilRepository.pesquisar({id:id});
-
-        if(!perfil) {return false}
-        this.perfilRepository.atualizar(id,perfil);
+    async remover(id: number): Promise<boolean> {
+        const perfil = await this.perfilRepositorio.pesquisar({ id: id });
+        if (!perfil) {
+            return false;
+        }
+        await this.perfilRepositorio.remover(perfil);
         return true;
     }
 }
