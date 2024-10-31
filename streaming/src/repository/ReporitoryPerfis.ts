@@ -1,6 +1,7 @@
 import { Perfil } from "../entity/Perfis";
 import { banco } from "../data-source";
 import { Repository } from "typeorm";
+import { Filme } from "../entity/Filme";
 
 interface IPerfilRepository {
     create(f: Perfil): Promise<Perfil>;
@@ -63,6 +64,19 @@ export class PerfilRepositorio implements IPerfilRepository {
             await this.repositorio.update(id, dados);
         } catch (error) {
             throw new Error("Erro ao atualizar perfil.");
+        }
+    }
+
+    async listarFilmesPorPerfil(id: number): Promise<Filme[]> {
+        const perfil = await this.repositorio.findOne({
+            where: { id: id },
+            relations: ["filmes"],
+        });
+
+        if (perfil) {
+            return perfil.filmes;
+        } else {
+            throw new Error("Perfil não encontrado");
         }
     }
 }
