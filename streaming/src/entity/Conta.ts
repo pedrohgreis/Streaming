@@ -13,7 +13,7 @@ export class Conta {
   senha: string;
 
   @OneToMany(() => Perfil, (perfil) => perfil.contas)
-  perfil: Perfil[]; // Remova a inicialização do array
+  perfil: Perfil[]; 
 
   constructor(email?: string, senha?: string) {
     this.email = email;
