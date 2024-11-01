@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
-import { Perfis } from "./Perfis";
+import { Perfil } from "./Perfis";
 
 @Entity()
 export class Conta {
@@ -12,6 +12,13 @@ export class Conta {
   @Column()
   senha: string;
 
-  @ManyToOne(() => Perfis, (perfil) => perfil.contas)
-  perfil: Perfis;
+  @ManyToOne(() => Perfil, (perfil) => perfil.contas)
+    perfil: Perfil;
+
+    constructor(email?: string, senha?: string, perfil?: Perfil) {
+        this.email = email;
+        this.senha = senha;
+        this.perfil = perfil;
+    }
 }
+
