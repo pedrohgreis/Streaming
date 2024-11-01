@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Perfil } from "./Perfis";
 
 @Entity()
@@ -12,13 +12,11 @@ export class Conta {
   @Column()
   senha: string;
 
-  @ManyToOne(() => Perfil, (perfil) => perfil.contas)
-    perfil: Perfil;
+  @OneToMany(() => Perfil, (perfil) => perfil.contas)
+  perfil: Perfil[]; // Remova a inicialização do array
 
-    constructor(email?: string, senha?: string, perfil?: Perfil) {
-        this.email = email;
-        this.senha = senha;
-        this.perfil = perfil;
-    }
+  constructor(email?: string, senha?: string) {
+    this.email = email;
+    this.senha = senha;
+  }
 }
-

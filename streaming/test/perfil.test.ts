@@ -22,7 +22,7 @@ describe("PerfilService", () => {
     })
 
     it("Criar Perfil", async () => {
-        const perfil: Perfil = {id: 1,nome: "João", idade: 27, contas: [], filmes: []}
+        const perfil: Perfil = {id: 1,nome: "João", idade: 27, contas: null, filmes: []}
 
         perfilRepositorioMock.create.mockResolvedValue(perfil);
 
@@ -33,7 +33,7 @@ describe("PerfilService", () => {
     });
 
     it("Listar perfis", async () => {
-        const listar:Perfil[] = [{id: 1,nome: "João", idade: 27, contas: [], filmes: []}]
+        const listar:Perfil[] = [{id: 1,nome: "João", idade: 27, contas: null, filmes: []}]
         perfilRepositorioMock.listar.mockResolvedValue(listar)
 
         const result = await perfilService.listar()
@@ -51,7 +51,7 @@ describe("PerfilService", () => {
     });
 
     it("Remover perfil", async () => {
-        const perfil: Perfil = {id: 1,nome: "João", idade: 27, contas: [], filmes: []}
+        const perfil: Perfil = {id: 1,nome: "João", idade: 27, contas: null, filmes: []}
 
         perfilRepositorioMock.pesquisar.mockResolvedValue(perfil);
         perfilRepositorioMock.remover.mockResolvedValue(perfil);

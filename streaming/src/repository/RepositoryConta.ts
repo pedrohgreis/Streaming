@@ -24,6 +24,7 @@ export class ContaRepository implements IContaRepository {
             return await this.repositorio.save(conta);
         } catch (error) {
             // Tratamento de erros
+            console.error("Erro ao criar conta:", error);
             throw new Error("Erro ao criar conta.");
         }
     }
