@@ -1,3 +1,14 @@
+# Integrantes
+
+- Maria Vittória: 202221901035
+- Gabriel Martins: 202221901019
+- Thiago Vinicius: 202221901046
+- Pedro Henrique: 202221901040
+- Gabriel Nodari: 202221901020
+
+
+
+
 # Streaming App
 
 Este é um aplicativo de streaming simples que permite gerenciar contas de usuários, perfis de visualização e filmes utilizando TypeORM, Express e EJS.
@@ -29,3 +40,13 @@ Para executar o projeto, siga os passos abaixo:
    ```bash
    git clone https://github.com/seu-usuario/seu-repositorio.git
    cd seu-repositorio
+
+
+# Passos pra roda
+
+Steps to run this project:
+
+1. Roda `npm i`
+2. Ajusta os dados do arquivo `data-source.ts` fle
+3. roda `npm start`
+
