@@ -22,7 +22,7 @@ export class Filme {
 
   @ManyToMany(() => Perfil, (perfil) => perfil.filmes)
   @JoinTable({
-        name: "filme_perfil", // Nome da tabela de junção
+        name: "filme_perfil", 
         joinColumn: {
             name: "filme_id",
             referencedColumnName: "id"
