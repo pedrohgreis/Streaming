@@ -66,7 +66,7 @@ export class PerfilRepositorio implements IPerfilRepository {
 
     async atualizar(id: number, dados: Partial<Perfil>): Promise<void> {
         try {
-            // Primeiro, buscar o perfil existente com suas relações
+            
             const perfilExistente = await this.repositorio.findOne({
                 where: { id },
                 relations: ["filmes"]
@@ -76,12 +76,12 @@ export class PerfilRepositorio implements IPerfilRepository {
                 throw new Error("Perfil não encontrado");
             }
 
-            // Se houver filmes nos dados, atualizar a relação
+            
             if (dados.filmes) {
                 perfilExistente.filmes = dados.filmes;
                 await this.repositorio.save(perfilExistente);
             } else {
-                // Se não houver filmes, atualizar apenas os outros dados
+                
                 await this.repositorio.update(id, dados);
             }
         } catch (error) {
